@@ -1,5 +1,7 @@
 from application import app 
 
+if __name__ == "__main__":
+    app.run()
 
 # git remote add origin https://github.com/vedantpatel07756/Billapp.git
 # git branch -M main
