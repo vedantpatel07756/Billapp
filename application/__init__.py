@@ -1,7 +1,7 @@
 from flask import Flask, render_template,request,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+import os
 
 app = Flask(__name__)
 
@@ -9,7 +9,9 @@ app = Flask(__name__)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:18272610@localhost:5432/billapp"
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://billapp_j3zj_user:bEj087DFdD0a3RCJcA28IL5PNLo1fycD@dpg-cq3a8d2ju9rs739ale8g-a/billapp_j3zj"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://avnadmin:AVNS_Di2nvhA25vvHxQCXWz_@pg-4ebef31-vedantpatelbillapp1827-cea2.c.aivencloud.com:19937/defaultdb?sslmode=require"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://avnadmin:AVNS_Di2nvhA25vvHxQCXWz_@pg-4ebef31-vedantpatelbillapp1827-cea2.c.aivencloud.com:19937/defaultdb?sslmode=require"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
