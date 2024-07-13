@@ -202,8 +202,9 @@ def create_invoice():
             item = Item.query.get(item_id)
             if item:
                 # Ensure item quantity is sufficient
-                if int(item.quantity) < int(quantity):
-                    raise ValueError(f"Insufficient stock for item id {item_id}")
+                if(party.type=="Customer"):
+                    if int(item.quantity) < int(quantity):
+                        raise ValueError(f"Insufficient stock for item id {item_id}")
 
                 if (party.type=="Supplier") :
                          # Reduce item quantity
