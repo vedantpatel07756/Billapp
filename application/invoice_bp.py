@@ -63,8 +63,10 @@ def mark_as_paid(invoice_id):
 def delete_invoice(invoice_id):
     invoice = Invoice.query.get_or_404(invoice_id)
     party = PartyData.query.get_or_404(invoice.party_id)
-
-    party.balance -= int(invoice.total_amount)
+    
+    if(invoice.status=="Unpaid"):
+        party.balance -= int(invoice.total_amount)
+    
     db.session.delete(invoice)
     db.session.commit()
     return jsonify({'message': 'Invoice deleted successfully', 'invoice_id': invoice_id})
