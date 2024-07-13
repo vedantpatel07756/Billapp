@@ -6,14 +6,7 @@ import os
 
 app = Flask(__name__)
 
-
-load_dotenv() 
-
-
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
-
-
-
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
