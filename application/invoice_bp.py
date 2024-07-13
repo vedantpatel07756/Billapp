@@ -205,16 +205,28 @@ def create_invoice():
                 if int(item.quantity) < int(quantity):
                     raise ValueError(f"Insufficient stock for item id {item_id}")
 
-                # Reduce item quantity
-                item.quantity =  str(int(item.quantity) - int(quantity))
+                if (party.type=="Supplier") :
+                         # Reduce item quantity
+                    item.quantity =  str(int(item.quantity) + int(quantity))
 
-                # Create stock transaction
-                stock_transaction = StockTransaction(
-                    item_id=item_id,
-                    transaction_type='Reduce Stock',
-                    quantity=int(quantity),
-                    date=data['invoice_date']
-                )
+                    # Create stock transaction
+                    stock_transaction = StockTransaction(
+                        item_id=item_id,
+                        transaction_type='Add Stock',
+                        quantity=int(quantity),
+                        date=data['invoice_date']
+                    )
+                else: 
+                    # Reduce item quantity
+                    item.quantity =  str(int(item.quantity) - int(quantity))
+
+                    # Create stock transaction
+                    stock_transaction = StockTransaction(
+                        item_id=item_id,
+                        transaction_type='Reduce Stock',
+                        quantity=int(quantity),
+                        date=data['invoice_date']
+                    )
                 db.session.add(stock_transaction)
             else:
                 raise ValueError(f"Item with id {item_id} not found")
