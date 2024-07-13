@@ -47,7 +47,7 @@ class StockTransaction(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     transaction_type = db.Column(db.String(20), nullable=False)  # 'Add' or 'Reduce'
     quantity = db.Column(db.String, nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    date = db.Column(db.String(25),nullable=True)
 
     def __repr__(self):
         return f"StockTransaction(id={self.id}, item_id={self.item_id}, transaction_type={self.transaction_type}, quantity={self.quantity}, date={self.date})"
