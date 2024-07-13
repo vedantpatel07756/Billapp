@@ -51,3 +51,17 @@ class StockTransaction(db.Model):
 
     def __repr__(self):
         return f"StockTransaction(id={self.id}, item_id={self.item_id}, transaction_type={self.transaction_type}, quantity={self.quantity}, date={self.date})"
+    
+
+# New Table Added 
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    phone_number = db.Column(db.String(15), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.name}>'

@@ -29,6 +29,7 @@ with app.app_context():
     from .party import party_bp
     from .items import items_bp
     from .invoice_bp import invoice_bp
+    from .user import user_bp
     db.create_all()
 
 
@@ -52,6 +53,7 @@ app.register_blueprint(party_bp)
 app.register_blueprint(items_bp)
 
 app.register_blueprint(invoice_bp)
+app.register_blueprint(user_bp)
 
 
 if __name__ == '__main__':
