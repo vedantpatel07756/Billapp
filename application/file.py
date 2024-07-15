@@ -12,22 +12,47 @@ class PartyData(db.Model):
     task=db.Column(db.String(50),nullable=False)
 
     
+# class Invoice(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     party_id = db.Column(db.Integer, db.ForeignKey('party_data.id'), nullable=False)
+#     invoice_date = db.Column(db.String,  nullable=False)
+#     total_amount = db.Column(db.String, nullable=False)
+#     status = db.Column(db.String(20), nullable=False)  # 'Paid' or 'Unpaid'
+    
+#     # Embedded Invoice Item fields
+#     item_id = db.Column(db.String, nullable=False)
+#     quantity = db.Column(db.String, nullable=False)
+#     unit_price = db.Column(db.String, nullable=False)
+
+#     #discount
+#     discountAmount =db.Column(db.String,nullable=True)
+
+#     def __repr__(self):
+#         return (f"Invoice(id={self.id}, party_id={self.party_id}, invoice_date={self.invoice_date}, "
+#                 f"total_amount={self.total_amount}, status={self.status}, item_id={self.item_id}, "
+#                 f"quantity={self.quantity}, unit_price={self.unit_price})")
+    
 class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     party_id = db.Column(db.Integer, db.ForeignKey('party_data.id'), nullable=False)
-    invoice_date = db.Column(db.String,  nullable=False)
+    invoice_date = db.Column(db.String, nullable=False)
     total_amount = db.Column(db.String, nullable=False)
     status = db.Column(db.String(20), nullable=False)  # 'Paid' or 'Unpaid'
-    
+
     # Embedded Invoice Item fields
     item_id = db.Column(db.String, nullable=False)
     quantity = db.Column(db.String, nullable=False)
     unit_price = db.Column(db.String, nullable=False)
+    discountAmount = db.Column(db.String, nullable=True)  # New column for discount amount
+    discount_type = db.Column(db.String,nullable=True)
+    bussinessName = db.Column(db.String,nullable=True)
+    bussinessPhoneNo = db.Column(db.String,nullable=True)
+    PaymentMode = db.Column(db.String,nullable=True)
 
     def __repr__(self):
         return (f"Invoice(id={self.id}, party_id={self.party_id}, invoice_date={self.invoice_date}, "
                 f"total_amount={self.total_amount}, status={self.status}, item_id={self.item_id}, "
-                f"quantity={self.quantity}, unit_price={self.unit_price})")
+                f"quantity={self.quantity}, unit_price={self.unit_price}, discountAmount={self.discountAmount})")
     
 
 class Item(db.Model):
@@ -37,6 +62,7 @@ class Item(db.Model):
     sales_price = db.Column(db.String(80), nullable=False)
     purchase_price = db.Column(db.String(80), nullable=False)
     stock_transactions = db.relationship('StockTransaction', backref='item', lazy=True)
+    unit = db.Column(db.String(80),nullable=True)
 
     def __repr__(self):
         return f"Item(id={self.id}, name={self.name}, quantity={self.quantity}, sales_price={self.sales_price}, purchase_price={self.purchase_price})"

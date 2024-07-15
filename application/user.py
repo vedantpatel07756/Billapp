@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
-from . import db
+from . import db,socketio
 from datetime import datetime
 from .file import User
+
 
 
 user_bp = Blueprint('user', __name__)
@@ -48,17 +49,38 @@ def get_users():
         user_list.append(user_data)
     return jsonify(user_list)
 
-# Delete View 
+# # Delete View 
+# @user_bp.route('/users/<int:id>', methods=['DELETE'])
+# def delete_user(id):
+#     user = User.query.get(id)
+#     if user:
+#         db.session.delete(user)
+#         db.session.commit()
+#         return jsonify({'message': 'User deleted successfully'}), 200
+#     else:
+#         return jsonify({'message': 'User not found'}), 404
+
+# Delete User 
 @user_bp.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
     user = User.query.get(id)
     if user:
+        user_id = user.id  # store user_id before deleting
         db.session.delete(user)
         db.session.commit()
+        socketio.emit('account_deleted',{'user_id': user_id}, namespace='/')
+        print("Socket Connection Deleted Account pass")
         return jsonify({'message': 'User deleted successfully'}), 200
     else:
         return jsonify({'message': 'User not found'}), 404
 
+
+
+@user_bp.route('/checkdelete',methods=['GET'])
+def check():
+    socketio.emit('check', namespace='/')
+    print("Socket Connection Deleted Account pass")
+    return 'checked'
 
 # Login View 
     

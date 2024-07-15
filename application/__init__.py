@@ -2,9 +2,11 @@ from flask import Flask, render_template,request,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
+from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 
@@ -53,9 +55,10 @@ app.register_blueprint(invoice_bp)
 app.register_blueprint(user_bp)
 
 
+# if __name__ == '__main__':
+#     app.run(debug=True)
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    socketio.run(app, debug=True)
 # if __name__ == '__main__':
 #     app.run(port=5000, debug=True)
 

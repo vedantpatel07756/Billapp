@@ -7,30 +7,6 @@ items_bp = Blueprint('items', __name__)
 
 
 
-# class Item(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(80), nullable=False)
-#     quantity = db.Column(db.String(80), nullable=False,)  # Change to Integer for numerical operations
-#     sales_price = db.Column(db.String(80), nullable=False)
-#     purchase_price = db.Column(db.String(80), nullable=False)
-#     stock_transactions = db.relationship('StockTransaction', backref='item', lazy=True)
-
-#     def __repr__(self):
-#         return f"Item(id={self.id}, name={self.name}, quantity={self.quantity}, sales_price={self.sales_price}, purchase_price={self.purchase_price})"
-
-
-# class StockTransaction(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
-#     transaction_type = db.Column(db.String(20), nullable=False)  # 'Add' or 'Reduce'
-#     quantity = db.Column(db.String, nullable=False)
-#     date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-
-#     def __repr__(self):
-#         return f"StockTransaction(id={self.id}, item_id={self.item_id}, transaction_type={self.transaction_type}, quantity={self.quantity}, date={self.date})"
-
-
-
 # add item Data 
 @items_bp.route('/items/add_item', methods=['POST'])
 def add_item():
@@ -39,7 +15,8 @@ def add_item():
         name=str(data['name']),
         quantity=data['quantity'],
         sales_price=data['sales_price'],
-        purchase_price=data['purchase_price']
+        purchase_price=data['purchase_price'],
+        unit=data['unit']
     )
     db.session.add(new_item)
     db.session.commit()
@@ -58,7 +35,7 @@ def get_all_items():
             'quantity': str(item.quantity),
             'sales_price': str(item.sales_price),
             'purchase_price': str(item.purchase_price),
-
+            'unit':item.unit,
         }
         items_list.append(item_data)
     return jsonify(items_list)
@@ -86,6 +63,7 @@ def update_item(item_id):
         item.name = data['name']
         item.sales_price = data['sales_price'] # Assuming float for sales_price
         item.purchase_price = data['purchase_price']  # Assuming float for purchase_price
+        item.unit=str(data['unit']) 
 
         # Commit changes to the database
         db.session.commit()
