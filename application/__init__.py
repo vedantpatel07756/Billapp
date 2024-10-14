@@ -35,14 +35,19 @@ with app.app_context():
 
 # Time Pass
 
+# Time Pass
+        # DEV-IT contact email for account deletion
+DEVIT_EMAIL = "vsfusion2608@gmail.com"
 
-@app.route('/')
-def home():
-    # Pass individual variables to the template
-    title = 'Home Page'
-    greeting = 'Welcome to our website!'
-    content = 'This is the home page content.'
-    return render_template('index.html', title=title, greeting=greeting, content=content)
+@app.route('/delete-account', methods=['GET'])
+def delete_account():
+    # Generate the URL for the Play Store account deletion process
+    playstore_link = url_for('playstore_account_deletion', _external=True)
+    return render_template('delete_account.html', email=DEVIT_EMAIL, playstore_link=playstore_link)
+
+@app.route('/playstore-account-deletion', methods=['GET'])
+def playstore_account_deletion():
+    return "Account deletion process initiated. Please contact DEV-IT for further assistance."
 
 
 
